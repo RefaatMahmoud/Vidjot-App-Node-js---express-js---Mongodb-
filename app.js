@@ -1,6 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
-
+const path = require("path");
 const port = 3000;
 var app = express();
 
@@ -10,11 +10,14 @@ app.engine('handlebars', exphbs({
 }));
 app.set('view engine', 'handlebars');
 
+//Set public folder
+app.use(express.static(path.join(__dirname, "public")));
+
 //Routes
 app.get('/', (req, res) => {
-    var author = "Refaat Aish";
+    var title = "Welcome";
     res.render('Index', {
-        author: author
+        title: title
     });
 });
 
