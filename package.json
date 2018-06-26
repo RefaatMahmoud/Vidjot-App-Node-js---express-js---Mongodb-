@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/RefaatMahmoud/Vidjot-App-Node-js---express-js---Mongodb-#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "handlebars": "^4.0.11"
   }
 }
