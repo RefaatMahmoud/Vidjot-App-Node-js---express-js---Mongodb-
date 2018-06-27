@@ -7,7 +7,7 @@ const IdeasSchema = new Schema({
     type: String,
     required: true
   },
-  detals: {
+  details: {
     type: String,
     required: true
   },
