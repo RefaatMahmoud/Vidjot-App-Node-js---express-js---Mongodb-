@@ -3,6 +3,7 @@ const exphbs = require('express-handlebars');
 const path = require("path");
 const mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override')
 const port = 3000;
 var app = express();
 
@@ -30,35 +31,31 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 
+//methodOverride middleware
+app.use(methodOverride('_method'))
+
 //Set public folder
 //app.use(express.static(path.join(__dirname, "public")));
 
-//Routes
+//Routes 
+//Index Page
 app.get('/', (req, res) => {
     var title = "Welcome";
     res.render('index', {
         title: title
     });
 });
-
+//About Page
 app.get('/about', (req, res) => {
     res.render('about');
 });
 
+//Add Idea Form
 app.get('/ideas/add', (req, res) => {
     res.render('ideas/add');
 });
 
-app.get('/ideas', (req, res) => {
-    //Get Data From DB
-    Ideas.find({})
-        .then(data => {
-            res.render('ideas/index', {
-                ideas: data
-            })
-        });
-});
-
+//Post new Idea
 app.post('/ideas', (req, res) => {
     let errors = [];
     if (!req.body.title) {
@@ -89,6 +86,50 @@ app.post('/ideas', (req, res) => {
 
     }
 });
+//Edit Idea Form
+app.get('/ideas/edit/:id', (req, res) => {
+    Ideas.findOne({
+        _id: req.params.id
+    }).then(idea => {
+        res.render('ideas/edit', {
+            idea: idea
+        })
+    });
+});
+//Update Data From Edit Form
+app.put('/ideas/:id', (req, res) => {
+    Ideas.findOne({
+        _id: req.params.id
+    }).then(idea => {
+        //new Values
+        idea.title = req.body.title;
+        idea.details = req.body.details;
+        //save 
+        idea.save()
+    }).then(idea => {
+        res.redirect('/ideas')
+    });
+});
+//Delete Idea
+app.delete('/ideas/:id', (req, res) => {
+    Ideas.remove({
+        _id: req.params.id
+    }).then(() => {
+        res.redirect('/ideas');
+    });
+});
+//Display All Ideas
+app.get('/ideas', (req, res) => {
+    //Get Data From DB
+    Ideas.find({})
+        .then(data => {
+            res.render('ideas/index', {
+                ideas: data
+            })
+        });
+});
+
+
 
 //Listen server
 app.listen(port, () => {

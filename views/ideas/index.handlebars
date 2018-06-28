@@ -2,5 +2,11 @@
 <div class="card card-body mt-3">
   <h4>{{title}}</h4>
   <p>{{details}}</p>
+  <a href="/ideas/edit/{{id}}" class="btn btn-success">Edit Idea</a>
+  <form action="/ideas/{{id}}?_method=DELETE" method="post">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete idea" class="btn btn-danger mt-2 btn-block">
+  </form>
 </div>
 {{/each}}
+
