@@ -49,6 +49,16 @@ app.get('/ideas/add', (req, res) => {
     res.render('ideas/add');
 });
 
+app.get('/ideas', (req, res) => {
+    //Get Data From DB
+    Ideas.find({})
+        .then(data => {
+            res.render('ideas/index', {
+                ideas: data
+            })
+        });
+});
+
 app.post('/ideas', (req, res) => {
     let errors = [];
     if (!req.body.title) {
