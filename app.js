@@ -9,17 +9,15 @@ const session = require('express-session')
 const port = 3000;
 var app = express();
 
-//map global promise
-//mongoose.Promise = global.Promise;
-
+//Load router
+ideas_router = require('./routers/ideas');
+users_router = require('./routers/users');
 //Connect ot mongoess 
 mongoose.connect("mongodb://localhost/vidjot-dev").
 then(() => console.log('Connected to Mongo')).
 catch(err => console.log(err));;
 
-//Load Ideas Schema
-require('./models/Ideas');
-const Ideas = mongoose.model('Ideas');
+
 
 //Handlebars middleware
 app.engine('handlebars', exphbs({
@@ -63,92 +61,16 @@ app.get('/', (req, res) => {
         title: title
     });
 });
+
 //About Page
 app.get('/about', (req, res) => {
     res.render('about');
 });
 
-//Add Idea Form
-app.get('/ideas/add', (req, res) => {
-    res.render('ideas/add');
-});
 
-//Post new Idea
-app.post('/ideas', (req, res) => {
-    let errors = [];
-    if (!req.body.title) {
-        errors.push({
-            text: "Please Enter Title"
-        });
-    }
-    if (!req.body.details) {
-        errors.push({
-            text: "Please Enter details"
-        });
-    }
-    if (errors.length > 0) {
-        res.render('ideas/add', {
-            errors: errors,
-            title: req.body.title,
-            details: req.body.details,
-        });
-    } else {
-        const newUser = {
-            title: req.body.title,
-            details: req.body.details
-        }
-        new Ideas(newUser)
-            .save().then(ideas => {
-                req.flash("success_msg", "Idea added successfully");
-                res.redirect('/ideas')
-            });
-
-    }
-});
-//Edit Idea Form
-app.get('/ideas/edit/:id', (req, res) => {
-    Ideas.findOne({
-        _id: req.params.id
-    }).then(idea => {
-        res.render('ideas/edit', {
-            idea: idea
-        })
-    });
-});
-//Update Data From Edit Form
-app.put('/ideas/:id', (req, res) => {
-    Ideas.findOne({
-        _id: req.params.id
-    }).then(idea => {
-        //new Values
-        idea.title = req.body.title;
-        idea.details = req.body.details;
-        //save 
-        idea.save()
-    }).then(idea => {
-        req.flash("success_msg", "Idea Updated successfully");
-        res.redirect('/ideas')
-    });
-});
-//Delete Idea
-app.delete('/ideas/:id', (req, res) => {
-    Ideas.remove({
-        _id: req.params.id
-    }).then(() => {
-        req.flash("success_msg", "Idea removed successfully");
-        res.redirect('/ideas');
-    });
-});
-//Display All Ideas
-app.get('/ideas', (req, res) => {
-    //Get Data From DB
-    Ideas.find({})
-        .then(data => {
-            res.render('ideas/index', {
-                ideas: data
-            })
-        });
-});
+//Use routers
+app.use('/ideas', ideas_router);
+app.use('/users', users_router);
 
 //Listen server
 app.listen(port, () => {
