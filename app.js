@@ -12,13 +12,17 @@ var app = express();
 //Load router
 ideas_router = require('./routers/ideas');
 users_router = require('./routers/users');
+
 //Connect ot mongoess 
 mongoose.connect("mongodb://localhost/vidjot-dev").
 then(() => console.log('Connected to Mongo')).
 catch(err => console.log(err));;
 
 
-
+/*========================================================
+  ====================  middlewares ======================
+  ========================================================
+*/
 //Handlebars middleware
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
@@ -51,9 +55,12 @@ app.use(function (req, res, next) {
     next();
 });
 //Set public folder
-//app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 
-//Routes 
+/*========================================================
+  =======================  Routers =======================
+  ========================================================
+*/
 //Index Page
 app.get('/', (req, res) => {
     var title = "Welcome";
@@ -61,18 +68,15 @@ app.get('/', (req, res) => {
         title: title
     });
 });
-
 //About Page
 app.get('/about', (req, res) => {
     res.render('about');
 });
-
-
 //Use routers
 app.use('/ideas', ideas_router);
 app.use('/users', users_router);
 
 //Listen server
 app.listen(port, () => {
-    console.log(`server started with port${port}`)
+    console.log(`server started with port ${port}`)
 });

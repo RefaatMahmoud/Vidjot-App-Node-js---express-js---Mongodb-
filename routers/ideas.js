@@ -4,12 +4,10 @@ const mongoose = require('mongoose');
 //Load Ideas Schema
 require('../models/ideas');
 const Ideas = mongoose.model('Ideas');
-
 //Add Idea Form
 router.get('/add', (req, res) => {
   res.render('ideas/add');
 });
-
 //Post new Idea
 router.post('/', (req, res) => {
   let errors = [];
@@ -42,7 +40,6 @@ router.post('/', (req, res) => {
 
   }
 });
-
 //Edit Idea Form
 router.get('/edit/:id', (req, res) => {
   Ideas.findOne({
@@ -53,7 +50,6 @@ router.get('/edit/:id', (req, res) => {
     })
   });
 });
-
 //Update Data From Edit Form
 router.put('/:id', (req, res) => {
   Ideas.findOne({
@@ -69,7 +65,6 @@ router.put('/:id', (req, res) => {
     res.redirect('/ideas')
   });
 });
-
 //Delete Idea
 router.delete('/:id', (req, res) => {
   Ideas.remove({
@@ -79,7 +74,6 @@ router.delete('/:id', (req, res) => {
     res.redirect('/ideas');
   });
 });
-
 //Display All Ideas
 router.get('/', (req, res) => {
   //Get Data From DB
@@ -90,6 +84,5 @@ router.get('/', (req, res) => {
       })
     });
 });
-
 //Export
 module.exports = router;
