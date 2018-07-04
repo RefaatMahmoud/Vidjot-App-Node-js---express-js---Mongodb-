@@ -23,9 +23,12 @@
           <a href="/ideas/add" class="dropdown-item">Add Idea</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/users/logout">Logout
-        </a>
+      <li class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">
+          {{user.name}}</a>
+        <div class="dropdown-menu">
+          <a href="/users/logout" class="dropdown-item">Logout</a>
+        </div>
       </li>
       {{else}}
       <li class="nav-item active">
