@@ -4,11 +4,37 @@ require('../models/Users');
 const mongoose = require('mongoose');
 const User = mongoose.model('Users');
 const bcrypt = require('bcrypt');
+var passport = require('passport');
+const Strategy = require('passport-local').Strategy;
+
+passport.use(new Strategy(
+  function (email, password, cb) {
+    db.users.findOne(email, function (err, user) {
+      if (err) {
+        return cb(err);
+      }
+      if (!user) {
+        return cb(null, false);
+      }
+      if (user.password != password) {
+        return cb(null, false);
+      }
+      return cb(null, user);
+    });
+  }));
+
 //login user
 router.get('/login', (req, res) => {
   res.render('users/login')
 });
 
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', {
+    successRedirect: '/ideas',
+    failureRedirect: '/users/login',
+    failureFlash: true
+  })(req, res, next)
+});
 //register user
 router.get('/register', (req, res) => {
   res.render('users/register')
@@ -65,7 +91,7 @@ router.post('/register', (req, res) => {
             new User(newUser).save()
               .then(user => {
                 req.flash("success_msg", "Register successfully");
-                res.redirect('/ideas');
+                res.redirect('/users/login');
               })
               .catch(err => {
                 console.log(err);
@@ -77,5 +103,10 @@ router.post('/register', (req, res) => {
   }
 });
 
+router.get('/logout', (req, res) => {
+  req.logout();
+  req.flash('success_msg', 'You are logout');
+  res.redirect('/users/login')
+});
 //Export
 module.exports = router;
