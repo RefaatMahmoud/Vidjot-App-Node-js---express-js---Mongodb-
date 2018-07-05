@@ -22,10 +22,6 @@ catch(err => console.log(err));
 
 //passport config
 require('./config/passport')(passport);
-/*
-
-
-*/
 /*========================================================
   ====================  middlewares ======================
   ========================================================
@@ -49,21 +45,10 @@ app.use(methodOverride('_method'))
 //express-session middleware
 
 app.use(session({
-    secret: 'secret',
+    secret: 'keyboard cat',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
 }));
-
-
-// var sess = {
-//     secret: 'keyboard cat',
-//     cookie: {}
-// }
-
-// if (app.get('env') === 'production') {
-//     app.set('trust proxy', 1) // trust first proxy
-//     sess.cookie.secure = true // serve secure cookies
-// }
 
 //passport middleware
 app.use(passport.initialize());
@@ -104,8 +89,7 @@ app.use('/ideas', ideas_router);
 app.use('/users', users_router);
 //Config for heroku
 
-//const port = process.env.PORT || 3000;
-const port = process.env.PORT
+const port = process.env.PORT || 3000;
 //Listen server
 app.listen(port, () => {
     console.log(`server started with port ${port}`)
