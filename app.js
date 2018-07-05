@@ -65,8 +65,6 @@ app.use(session({
 //     sess.cookie.secure = true // serve secure cookies
 // }
 
-app.use(session(sess));
-
 //passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
