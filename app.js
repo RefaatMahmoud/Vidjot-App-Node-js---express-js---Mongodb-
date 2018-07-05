@@ -8,7 +8,7 @@ const methodOverride = require('method-override')
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
-
+const RedisStore = require('connect-redis')(session);
 //Connect ot mongoess 
 const DB = require("./config/database");
 /*
@@ -51,10 +51,18 @@ app.use(methodOverride('_method'))
 //express-session middleware
 
 app.use(session({
+    store: new RedisStore(),
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
 }));
+
+// app.use(session({
+//     store: new RedisStore(),
+//     secret: 'keyboard cat',
+//     resave: true,
+//     saveUninitialized: true
+// }));
 
 //passport middleware
 app.use(passport.initialize());
