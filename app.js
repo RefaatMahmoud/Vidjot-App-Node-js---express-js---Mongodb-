@@ -51,10 +51,12 @@ app.use(methodOverride('_method'))
 //express-session middleware
 
 app.use(session({
-    store: new RedisStore(),
-    secret: 'keyboard cat',
-    resave: true,
-    saveUninitialized: true,
+    cookie: {
+        maxAge: 60000
+    },
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false
 }));
 
 // app.use(session({
