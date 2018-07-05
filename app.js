@@ -12,15 +12,16 @@ const passport = require('passport');
 const DB = require("./config/database");
 const MongoStore = require('connect-mongo')(session);
 
-
+/*
 mongoose.connect(DB.MongoURI).
 then(() => console.log('Connected to Mongo')).
 catch(err => console.log(err));
+*/
 
-/*
 mongoose.connect("mongodb://RefaatAish:Refo10466@ds127811.mlab.com:27811/devjot-prod").
 then(() => console.log('Connected to Mongo')).
 catch(err => console.log(err));
+/*
 //Load router
 ideas_router = require('./routers/ideas');
 users_router = require('./routers/users');
