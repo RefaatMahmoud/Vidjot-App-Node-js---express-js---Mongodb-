@@ -31,7 +31,7 @@ require('./config/passport')(passport);
   ========================================================
 */
 //Handlebars middleware
-/*
+
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
 }));
@@ -70,12 +70,12 @@ app.use(function (req, res, next) {
 });
 //Set public folder
 app.use(express.static(path.join(__dirname, "public")));
-*/
+
 /*========================================================
   =======================  Routers =======================
   ========================================================
 */
-/*
+
 //Index Page
 app.get('/', (req, res) => {
     var title = "Welcome";
@@ -92,7 +92,6 @@ app.use('/ideas', ideas_router);
 app.use('/users', users_router);
 //Config for heroku
 
-*/
 const port = process.env.PORT || 3000;
 //Listen server
 app.listen(port, () => {
