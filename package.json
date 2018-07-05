@@ -4,7 +4,7 @@
   "description": "This is Node Js - express - mongo db APP related with videos which contain",
   "main": "app.js",
   "scripts": {
-    "start": "node app"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
