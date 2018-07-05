@@ -32,7 +32,7 @@ require('./config/passport')(passport);
 */
 //Handlebars middleware
 app.engine('handlebars', exphbs({
-    defaultLayout: 'main'
+    defaultLayout: 'main.handlebars'
 }));
 app.set('view engine', 'handlebars');
 
