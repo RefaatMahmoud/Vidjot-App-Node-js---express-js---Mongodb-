@@ -4,6 +4,6 @@ if (process.env.Node_ENV === "production") {
   }
 } else {
   module.exports = {
-     MongoURI: "mongodb://localhost/vidjot-dev"
+    MongoURI: "mongodb://localhost/vidjot-dev"
   }
 }
