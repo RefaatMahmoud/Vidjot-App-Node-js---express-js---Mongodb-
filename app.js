@@ -26,12 +26,14 @@ users_router = require('./routers/users');
 //passport config
 require('./config/passport')(passport);
 
+
 /*========================================================
   ====================  middlewares ======================
   ========================================================
 */
+
 //Handlebars middleware
-/*
+
 app.engine('handlebars', exphbs({
     defaultLayout: 'main.handlebars'
 }));
@@ -71,8 +73,8 @@ app.use(function (req, res, next) {
 });
 //Set public folder
 app.use(express.static(path.join(__dirname, "public")));
-*/
-/*========================================================
+
+/*=======================================================
   =======================  Routers =======================
   ========================================================
 */
