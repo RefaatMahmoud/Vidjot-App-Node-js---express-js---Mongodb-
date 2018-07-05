@@ -78,7 +78,7 @@ app.use(express.static(path.join(__dirname, "public")));
   =======================  Routers =======================
   ========================================================
 */
-/*
+
 //Index Page
 app.get('/', (req, res) => {
     var title = "Welcome";
@@ -94,7 +94,7 @@ app.get('/about', (req, res) => {
 app.use('/ideas', ideas_router);
 app.use('/users', users_router);
 
-*/
+
 //Config for heroku
 const port = process.env.PORT || 3000;
 //Listen server
