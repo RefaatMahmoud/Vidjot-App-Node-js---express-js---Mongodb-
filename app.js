@@ -92,7 +92,7 @@ app.use('/ideas', ideas_router);
 app.use('/users', users_router);
 //Config for heroku
 
-const port = process.env.PORT || 3000;
+const port = process.env.port || 3000;
 //Listen server
 app.listen(port, () => {
     console.log(`server started with port ${port}`)
