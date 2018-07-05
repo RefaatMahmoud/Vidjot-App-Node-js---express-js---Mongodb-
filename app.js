@@ -15,8 +15,8 @@ ideas_router = require('./routers/ideas');
 users_router = require('./routers/users');
 
 //Connect ot mongoess 
-const DB = require("./config/database");
-mongoose.connect(DB.MongoURI).
+//const DB = require("./config/database");
+mongoose.connect("mongodb://RefaatAish:Refo10466@ds127811.mlab.com:27811/devjot-prod").
 then(() => console.log('Connected to Mongo')).
 catch(err => console.log(err));
 
