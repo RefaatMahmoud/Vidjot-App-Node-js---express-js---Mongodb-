@@ -4,7 +4,7 @@
   "description": "This is Node Js - express - mongo db APP related with videos which contain",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app"
   },
   "repository": {
     "type": "git",

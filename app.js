@@ -7,7 +7,6 @@ const methodOverride = require('method-override')
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
-const port = 3000;
 var app = express();
 
 //Load router
@@ -15,7 +14,8 @@ ideas_router = require('./routers/ideas');
 users_router = require('./routers/users');
 
 //Connect ot mongoess 
-mongoose.connect("mongodb://localhost/vidjot-dev").
+const DB = require("./config/database");
+mongoose.connect(DB.MongoURI).
 then(() => console.log('Connected to Mongo')).
 catch(err => console.log(err));;
 
@@ -85,7 +85,8 @@ app.get('/about', (req, res) => {
 //Use routers
 app.use('/ideas', ideas_router);
 app.use('/users', users_router);
-
+//Config for heroku
+const port = process.env.PORT || 3000;
 //Listen server
 app.listen(port, () => {
     console.log(`server started with port ${port}`)
