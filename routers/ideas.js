@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 //Load Ideas Schema
-require('../models/ideas');
+require('../models/Ideas');
 const Ideas = mongoose.model('Ideas');
 const {
   ensureAuthenticated
