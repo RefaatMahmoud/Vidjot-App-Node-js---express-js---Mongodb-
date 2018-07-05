@@ -1,103 +1,91 @@
 const express = require('express');
-const exphbs = require('express-handlebars');
-const path = require("path");
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const methodOverride = require('method-override')
+const path = require('path');
+const exphbs  = require('express-handlebars');
+const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
+const bodyParser = require('body-parser');
 const passport = require('passport');
-var app = express();
-const MongoStore = require('connect-mongo')(session);
-//Load router
-ideas_router = require('./routers/ideas');
-users_router = require('./routers/users');
+const mongoose = require('mongoose');
 
-//Connect ot mongoess 
-/*
-mongoose.connect("mongodb://localhost/vidjot-dev").
-then(() => console.log('Connected to Mongo')).
-catch(err => console.log(err));
-*/
-mongoose.connect("mongodb://RefaatAish:Refo10466@ds127811.mlab.com:27811/devjot-prod").
-then(() => console.log('Connected to Mongo')).
-catch(err => console.log(err));
-//passport config
+const app = express();
+
+// Load routes
+const ideas = require('./routes/ideas');
+const users = require('./routes/users');
+
+// Passport Config
 require('./config/passport')(passport);
+// DB Config
+const db = require('./config/database');
 
-/*========================================================
-  ====================  middlewares ======================
-  ========================================================
-*/
-//Handlebars middleware
+// Map global promise - get rid of warning
+mongoose.Promise = global.Promise;
+// Connect to mongoose
+mongoose.connect(db.mongoURI, {
+  useMongoClient: true
+})
+  .then(() => console.log('MongoDB Connected...'))
+  .catch(err => console.log(err));
+
+// Handlebars Middleware
 app.engine('handlebars', exphbs({
-    defaultLayout: 'main'
+  defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
 
-//body-pareser middleware
-app.use(bodyParser.urlencoded({
-    extended: false
-}))
-app.use(bodyParser.json())
+// Body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-//methodOverride middleware
-app.use(methodOverride('_method'))
+// Static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
-//express-session middleware
+// Method override middleware
+app.use(methodOverride('_method'));
+
+// Express session midleware
 app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true,
-    store: new MongoStore({
-        mongooseConnection: mongoose.connection
-    }),
-    cookie: {
-        maxAge: 180 * 60 * 1000
-    }
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
 }));
 
-//passport middleware
+// Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Connect-flash middleware
 app.use(flash());
 
-//Global Variables
-app.use(function (req, res, next) {
-    res.locals.success_msg = req.flash('success_msg');
-    res.locals.error_msg = req.flash('error_msg');
-    res.locals.error = req.flash('error');
-    res.locals.user = req.user || null;
-    res.locals.session = req.session;
-    next();
+// Global variables
+app.use(function(req, res, next){
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
+  next();
 });
-//Set public folder
-app.use(express.static(path.join(__dirname, "public")));
 
-/*========================================================
-  =======================  Routers =======================
-  ========================================================
-*/
-//Index Page
+// Index Route
 app.get('/', (req, res) => {
-    var title = "Welcome";
-    res.render('index', {
-        title: title
-    });
+  const title = 'Welcome';
+  res.render('index', {
+    title: title
+  });
 });
-//About Page
-app.get('/about', (req, res) => {
-    res.render('about');
-});
-//Use routers
-app.use('/ideas', ideas_router);
-app.use('/users', users_router);
 
-//Config for heroku
-const port = process.env.PORT || 3000;
-//Listen server
-app.listen(port, () => {
-    console.log(`server started with port ${port}`)
+// About Route
+app.get('/about', (req, res) => {
+  res.render('about');
+});
+
+
+// Use routes
+app.use('/ideas', ideas);
+app.use('/users', users);
+
+const port = process.env.PORT || 5000;
+
+app.listen(port, () =>{
+  console.log(`Server started on port ${port}`);
 });

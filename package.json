@@ -1,33 +1,22 @@
 {
-  "name": "vidjot-project",
+  "name": "vidjot",
   "version": "1.0.0",
-  "description": "This is Node Js - express - mongo db APP related with videos which contain",
+  "description": "App to create video ideas",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RefaatMahmoud/Vidjot-App-Node-js---express-js---Mongodb-.git"
-  },
-  "author": "Refaat Aish",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/RefaatMahmoud/Vidjot-App-Node-js---express-js---Mongodb-/issues"
-  },
-  "homepage": "https://github.com/RefaatMahmoud/Vidjot-App-Node-js---express-js---Mongodb-#readme",
+  "author": "Brad Traversy",
+  "license": "MIT",
   "dependencies": {
-    "bcrypt": "^2.0.1",
-    "body-parser": "^1.18.3",
-    "bootstrap": "^4.1.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.1",
     "connect-flash": "^0.1.1",
-    "connect-mongo": "^2.0.1",
-    "express": "^4.16.3",
+    "express": "^4.15.4",
     "express-handlebars": "^3.0.0",
-    "express-session": "^1.15.6",
-    "handlebars": "^4.0.11",
-    "method-override": "^2.3.10",
-    "mongoose": "^5.1.6",
+    "express-session": "^1.15.5",
+    "method-override": "^2.3.9",
+    "mongoose": "^4.11.12",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
   }
