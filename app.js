@@ -11,9 +11,7 @@ const passport = require('passport');
 
 //Connect ot mongoess 
 const DB = require("./config/database");
-mongoose.connect(DB.MongoURI, {
-    useMongoClient: true
-}).
+mongoose.connect(DB.MongoURI).
 then(() => console.log('Connected to Mongo')).
 catch(err => console.log(err));
 
