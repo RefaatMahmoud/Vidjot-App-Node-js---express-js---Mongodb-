@@ -10,19 +10,22 @@ const session = require('express-session');
 const passport = require('passport');
 //Connect ot mongoess 
 const DB = require("./config/database");
-/*
+const MongoStore = require('connect-mongo')(session);
+
+
 mongoose.connect(DB.MongoURI).
 then(() => console.log('Connected to Mongo')).
 catch(err => console.log(err));
-*/
 
+/*
 mongoose.connect("mongodb://RefaatAish:Refo10466@ds127811.mlab.com:27811/devjot-prod").
 then(() => console.log('Connected to Mongo')).
 catch(err => console.log(err));
 //Load router
 ideas_router = require('./routers/ideas');
 users_router = require('./routers/users');
-/*
+
+
 //passport config
 require('./config/passport')(passport);
 */
@@ -50,19 +53,23 @@ app.use(methodOverride('_method'))
 
 //express-session middleware
 */
-app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
-}));
-/*
 // app.use(session({
-//     store: new RedisStore(),
-//     secret: 'keyboard cat',
+//     secret: 'secret',
 //     resave: true,
 //     saveUninitialized: true
 // }));
 
+
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection
+    }),
+
+}));
+/*
 //passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
