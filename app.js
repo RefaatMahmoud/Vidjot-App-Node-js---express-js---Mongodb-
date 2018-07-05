@@ -8,7 +8,6 @@ const methodOverride = require('method-override')
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
-const RedisStore = require('connect-redis')(session);
 //Connect ot mongoess 
 const DB = require("./config/database");
 /*
@@ -16,6 +15,7 @@ mongoose.connect(DB.MongoURI).
 then(() => console.log('Connected to Mongo')).
 catch(err => console.log(err));
 */
+/*
 mongoose.connect("mongodb://RefaatAish:Refo10466@ds127811.mlab.com:27811/devjot-prod").
 then(() => console.log('Connected to Mongo')).
 catch(err => console.log(err));
@@ -25,7 +25,7 @@ users_router = require('./routers/users');
 
 //passport config
 require('./config/passport')(passport);
-
+*/
 
 /*========================================================
   ====================  middlewares ======================
@@ -33,7 +33,7 @@ require('./config/passport')(passport);
 */
 
 //Handlebars middleware
-
+/*
 app.engine('handlebars', exphbs({
     defaultLayout: 'main.handlebars'
 }));
@@ -49,16 +49,13 @@ app.use(bodyParser.json())
 app.use(methodOverride('_method'))
 
 //express-session middleware
-
+*/
 app.use(session({
-    cookie: {
-        maxAge: 60000
-    },
     secret: 'secret',
-    resave: false,
-    saveUninitialized: false
+    resave: true,
+    saveUninitialized: true
 }));
-
+/*
 // app.use(session({
 //     store: new RedisStore(),
 //     secret: 'keyboard cat',
@@ -83,12 +80,12 @@ app.use(function (req, res, next) {
 });
 //Set public folder
 app.use(express.static(path.join(__dirname, "public")));
-
+*/
 /*=======================================================
   =======================  Routers =======================
   ========================================================
 */
-
+/*
 //Index Page
 app.get('/', (req, res) => {
     var title = "Welcome";
@@ -104,7 +101,7 @@ app.get('/about', (req, res) => {
 app.use('/ideas', ideas_router);
 app.use('/users', users_router);
 
-
+*/
 //Config for heroku
 const port = process.env.PORT || 3000;
 //Listen server
