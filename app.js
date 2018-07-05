@@ -1,6 +1,5 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
-const app = express();
 const path = require("path");
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -8,38 +7,32 @@ const methodOverride = require('method-override')
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
-//Connect ot mongoess 
-const DB = require("./config/database");
+var app = express();
 const MongoStore = require('connect-mongo')(session);
-
-/*
-mongoose.connect(DB.MongoURI).
-then(() => console.log('Connected to Mongo')).
-catch(err => console.log(err));
-*/
-
-mongoose.connect("mongodb://RefaatAish:Refo10466@ds127811.mlab.com:27811/devjot-prod").
-then(() => console.log('Connected to Mongo')).
-catch(err => console.log(err));
-/*
 //Load router
 ideas_router = require('./routers/ideas');
 users_router = require('./routers/users');
 
-
+//Connect ot mongoess 
+/*
+mongoose.connect("mongodb://localhost/vidjot-dev").
+then(() => console.log('Connected to Mongo')).
+catch(err => console.log(err));
+*/
+mongoose.connect("mongodb://RefaatAish:Refo10466@ds127811.mlab.com:27811/devjot-prod").
+then(() => console.log('Connected to Mongo')).
+catch(err => console.log(err));
 //passport config
 require('./config/passport')(passport);
-*/
+
 
 /*========================================================
   ====================  middlewares ======================
   ========================================================
 */
-
 //Handlebars middleware
-/*
 app.engine('handlebars', exphbs({
-    defaultLayout: 'main.handlebars'
+    defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
 
@@ -53,24 +46,15 @@ app.use(bodyParser.json())
 app.use(methodOverride('_method'))
 
 //express-session middleware
-*/
-// app.use(session({
-//     secret: 'secret',
-//     resave: true,
-//     saveUninitialized: true
-// }));
-
-
 app.use(session({
-    secret: 'keyboard cat',
+    secret: 'secret',
     resave: true,
     saveUninitialized: true,
     store: new MongoStore({
         mongooseConnection: mongoose.connection
-    }),
-
+    })
 }));
-/*
+
 //passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
@@ -88,12 +72,11 @@ app.use(function (req, res, next) {
 });
 //Set public folder
 app.use(express.static(path.join(__dirname, "public")));
-*/
-/*=======================================================
+
+/*========================================================
   =======================  Routers =======================
   ========================================================
 */
-/*
 //Index Page
 app.get('/', (req, res) => {
     var title = "Welcome";
@@ -109,7 +92,6 @@ app.get('/about', (req, res) => {
 app.use('/ideas', ideas_router);
 app.use('/users', users_router);
 
-*/
 //Config for heroku
 const port = process.env.PORT || 3000;
 //Listen server
